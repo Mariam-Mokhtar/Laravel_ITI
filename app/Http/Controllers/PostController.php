@@ -32,7 +32,6 @@ class PostController extends Controller
             'created_at' => '2022-08-01 10:00:00'
         ],
     ];
-    //private $_id=3;
     public function index()
     {
         return view('post.index', ['posts' => $this->_allPosts]);
