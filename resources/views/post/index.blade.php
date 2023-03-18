@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="text-center">
-        <a  href="{{ route('posts.create') }}" type="button" class="mt-4 btn btn-success">Create Post</a>
+        <x-button  ref="{{ route('posts.create') }}" type="success" class="mt-4">Create Post</x-button>
     </div>
     <table class="table mt-4">
         <thead>
@@ -26,9 +26,9 @@
                 <td>{{$post['posted_by']}}</td>
                 <td>{{$post['created_at']}}</td>
                 <td>
-                    <a href="{{route('posts.show', $post['id'])}}" class="btn btn-info">View</a>
-                    <a href="{{route('posts.edit', $post['id'])}}" class="btn btn-primary">Edit</a>
-                    <a href="#" class="btn btn-danger">Delete</a>
+                    <x-button ref="{{route('posts.show', $post['id'])}}" type="info" > View </x-button>
+                    <x-button ref="{{route('posts.edit', $post['id'])}}" > Edit </x-button>
+                    <x-button type="danger"> Delete </x-button>
                 </td>
             </tr>
         @endforeach
