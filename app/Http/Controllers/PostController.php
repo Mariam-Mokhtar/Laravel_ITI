@@ -61,7 +61,6 @@ class PostController extends Controller
     }
     public function store(Request $request)
     {
-
         $post =  [
             'id' => 4,
             'title' => $request->title,
@@ -72,6 +71,7 @@ class PostController extends Controller
         $this->_allPosts[]=$post;
         return view('post.index', ['posts' => $this->_allPosts]);
     }
+
     public function update(Request $request,$id)
     {
   
