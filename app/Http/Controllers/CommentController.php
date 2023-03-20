@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
     public function store(Request $request)
-    {           
+    {   
         $post=Post::find($request->post_id);
         $post->comment()->create($request->all());
         return redirect()->back();

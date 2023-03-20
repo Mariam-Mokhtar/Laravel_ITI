@@ -133,9 +133,9 @@
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
                         <div class="col-md-12 mb-2">
                             <label for="user" class="form-label">Comment Creator</label>
-                            <select id="user" class="form-control" name="creator" required>
+                            <select id="user" class="form-control" name="user_id" required>
                                 @foreach ($users as $user)
-                                    <option value={{ $user->id }} @if ($post->user_id == $user->id) selected @endif>
+                                    <option value={{$user->id }} @if ($post->user_id == $user->id) selected @endif>
                                         {{ $user->name }}</option>
                                 @endforeach
                             </select>
