@@ -10,16 +10,17 @@
             <div class="row justify-content-md-center">
                 <div class="col-md-11">
                     <p class="text-center h3 fw-bold mb-2 mx-1 mx-md-4">
-                        New Post 
+                        New Post
                     </p>
-                    <form class="needs-validation mx-1 mx-md-4 row g-2" method="POST" action="{{ route('posts.store') }}" novalidate autocomplete="off">
+                    <form class="needs-validation mx-1 mx-md-4 row g-2" method="POST" action="{{ route('posts.store') }}"
+                        novalidate autocomplete="off">
                         @csrf
                         <div class="col-md-12 mb-2">
                             <div class="form-outline flex-fill mb-0">
                                 <label class="form-label" for="title">Title</label>
                                 <div id="title_div" class="input-group mb-3">
-                                    <input id="title" type="text" class="form-control required"
-                                        name="title" required autocomplete="off"/>
+                                    <input id="title" type="text" class="form-control required" name="title"
+                                        required autocomplete="off" />
                                 </div>
                                 <div class="invalid-feedback">
                                     Please Enter title for a new post
@@ -42,10 +43,9 @@
                             <div class="form-group">
                                 <label for="disabledSelect">Post Creator</label>
                                 <select id="disabledSelect" class="form-control" name="creator" required>
-                                    <option >Mohamed</option>
-                                    <option >Ahmed</option>
-                                    <option >Ali</option>
-                                    <option >Mariam</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{$user->id}}">{{ $user->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
