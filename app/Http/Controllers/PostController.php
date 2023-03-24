@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 class PostController extends Controller
 {    public function index()
     {
-        $all_posts = Post::paginate(7);
+        $all_posts = Post::withTrashed()->paginate(7);
         return view('post.index', ['posts' => $all_posts]);
     }
     public function show($id)
@@ -89,5 +89,11 @@ class PostController extends Controller
     public function pruneOldPost()
     {
         PruneOldPostsJob::dispatch();
+    }
+    public function restore($id)
+    {
+        $post = Post::withTrashed()->find($id);
+        $post->restore();  
+        return redirect()->back()->with('success', 'A Post is Restored Successfully!');      
     }
 }

@@ -5,15 +5,21 @@
 @endsection
 @section('style')
     <style>
-  
-  body {
+        body {
             background-color: #ffffff;
-            height: 100vh; 
-            background-image:radial-gradient(circle, #ffffff 10%, rgb(225, 225, 250) 100%);
+            height: 100vh;
+            background-image: radial-gradient(circle, #ffffff 10%, rgb(225, 225, 250) 100%);
             background-attachment: fixed;
         }
+
+        .disabled {
+            pointer-events: none;
+            color: gray;
+            text-decoration: none;
+        }
+
     </style>
-@endsection 
+@endsection
 @section('content')
     <table class="table text-center">
         <div class="d-flex justify-content-end mt-3">
@@ -31,7 +37,7 @@
         </thead>
         <tbody>
             @foreach ($posts as $post)
-                <tr>
+                <tr>             
                     {{-- $post['id'] sa7 bardo --}}
                     <td>{{ $post->id }}</td>
                     <td>{{ $post->title }}</td>
@@ -47,14 +53,22 @@
                     @endif
                     <td>{{ $post->created_at->format('Y-m-d') }}</td>
                     <td class="actions">
-                        <x-button ref="{{ route('posts.show', $post->id) }}" type="info"> View </x-button>
-                        <x-button ref="{{ route('posts.edit', $post->id) }}"> Edit </x-button>
-                        <form method="POST" action="{{ route('posts.destroy', $post->id) }}" class="d-inline">
-                            @csrf
-                            @method('Delete')
-                            <x-button role="button" name="del-btn" class="btn deletePost" data-bs-toggle="modal"
-                                data-bs-target="#del-model" type="danger">Delete</x-button>
-                        </form>
+                        @if ($post->trashed())
+                            <x-button ref="{{ route('posts.show', $post->id) }}" type="info" class="disabled"> View </x-button>
+                            <x-button ref="{{ route('posts.edit', $post->id) }}" class="disabled"> Edit </x-button>
+                            <x-button href="{{ route('posts.restore', $post->id) }}" type="success" label="Restore" class="fs-6 px-2">Restore
+                            </x-button>
+                        @else
+                            <x-button ref="{{ route('posts.show', $post->id) }}" type="info"> View </x-button>
+                            <x-button ref="{{ route('posts.edit', $post->id) }}"> Edit </x-button>
+                            <form method="POST" action="{{ route('posts.destroy', $post->id) }}" class="d-inline">
+                                @csrf
+                                @method('Delete')
+                                <x-button role="button" name="del-btn" class="btn deletePost" data-bs-toggle="modal"
+                                    data-bs-target="#del-model" type="danger">Delete</x-button>
+                            </form>
+                        @endif
+
                     </td>
                 </tr>
             @endforeach
