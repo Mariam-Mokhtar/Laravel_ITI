@@ -3,35 +3,66 @@
 @section('title')
     Show
 @endsection
-
+@section('style')
+    <style>
+  
+  body {
+            background-color: rgb(225, 225, 250);
+            height: 100vh;
+            background-attachment: fixed;
+        }
+    </style>
+@endsection 
 @section('content')
-    <div class="row  justify-content-around mt-4 ">
-        <div class="col-5 card p-0">
-            <div class="card-header">
-                Post Info
-            </div>
-            <div class="card-body">
-                <p class="card-text">Title: {{ $post->title }}</p>
-                <p class="card-text">Description: {{ $post->description }}</p>
-            </div>
-        </div>
 
-        <div class="col-5 card p-0">
-            <div class="card-header">
-                Post Creator Info
-            </div>
-            <div class="card-body">
-                <p class="card-title">Name: {{ $post->user->name }}</p>
-                <p class="card-text">Email: {{ $post->user->email }}</p>
-                <p class="card-text">Created_at: {{ $post->created_at->format('l jS F Y h:i:s A') }}</p>
+    <div class="row mt-4">
+        <div class="col-5 d-flex justify-content-center p-0 ">
+            @if ($post->image_path)
+                <img src="{{ asset('storage/' . $post->image_path) }}"class="img-fluid rounded mx-auto"
+                   alt="" title="">
+            @else
+            <img src="{{ asset('storage/posts/no-image-available.jpeg')}}"class="img-fluid rounded mx-auto" alt="" title="">
+            @endif
+        </div>
+        <div class="col-md-7">
+            <div class="card p-0">
+                <div class="card-header">
+                    Post Info
+                </div>
+                <div class="card-body">
+                    <p class="card-text mb-1">Title: {{ $post->title }}</p>
+                    <p class="card-text mb-1">Description: {{ $post->description }}</p>
+                </div>
+                <div class="card p-0">
+                    <div class="card-header">
+                        Post Creator Info
+                    </div>
+                    <div class="card-body">
+                        <p class="card-title mb-1">Name: {{ $post->user->name }}</p>
+                        <p class="card-text mb-1">Email: {{ $post->user->email }}</p>
+                        <p class="card-text mb-1">Created_at: {{ $post->created_at->format('l jS F Y h:i:s A') }}</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="d-flex justify-content-end mt-3">
+    
+        <div class="d-flex justify-content-end mt-2">
             <x-button role="button" name="add-btn" class="btn" data-bs-toggle="modal" data-bs-target="#addComment">Add
                 Comment</x-button>
         </div>
+        @if ($errors->any())
+            <div class="col-6">
+                <div class="alert alert-danger pb-0 ">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        @endif
         @if (count($comments) > 0)
-            <div class="col-11 mt-3">
+            <div class="col-12 mt-2">
                 <table class="table text-center ">
                     <thead>
                         <tr>
@@ -55,7 +86,8 @@
                                 <td>{{ $comment->created_at->format('Y-m-d') }}</td>
                                 <td class="actions">
                                     <x-button role="button" name="del-btn" class="btn editComment" data-bs-toggle="modal"
-                                        data-bs-target="#editComment" value="{{ $comment->comment }}">Edit
+                                        data-bs-target="#editComment{{ $comment->id }}" value="{{ $comment->comment }}">
+                                        Edit
                                     </x-button>
                                     <form method="POST" action="{{ route('comments.destroy', $comment->id) }}"
                                         class="d-inline">
@@ -68,8 +100,8 @@
                                 </td>
                             </tr>
                             {{-- Edit Model --}}
-                            <div class="modal fade" id="editComment" data-bs-backdrop="static" data-bs-keyboard="false"
-                                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal fade" id="editComment{{ $comment->id }}" data-bs-backdrop="static"
+                                data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -112,7 +144,7 @@
                 </table>
                 <div class="container text-center">
                     {{ $comments->links('pagination::bootstrap-5') }}
-            
+
                 </div>
             </div>
         @endif
@@ -135,7 +167,7 @@
                             <label for="user" class="form-label">Comment Creator</label>
                             <select id="user" class="form-control" name="user_id" required>
                                 @foreach ($users as $user)
-                                    <option value={{$user->id }} @if ($post->user_id == $user->id) selected @endif>
+                                    <option value={{ $user->id }} @if ($post->user_id == $user->id) selected @endif>
                                         {{ $user->name }}</option>
                                 @endforeach
                             </select>

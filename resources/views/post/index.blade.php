@@ -3,7 +3,17 @@
 @section('title')
     Index
 @endsection
-
+@section('style')
+    <style>
+  
+  body {
+            background-color: #ffffff;
+            height: 100vh; 
+            background-image:radial-gradient(circle, #ffffff 10%, rgb(225, 225, 250) 100%);
+            background-attachment: fixed;
+        }
+    </style>
+@endsection 
 @section('content')
     <table class="table text-center">
         <div class="d-flex justify-content-end mt-3">
@@ -13,6 +23,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Title</th>
+                <th scope="col">Slug</th>
                 <th scope="col">Posted By</th>
                 <th scope="col">Created At</th>
                 <th scope="col">Actions</th>
@@ -24,6 +35,11 @@
                     {{-- $post['id'] sa7 bardo --}}
                     <td>{{ $post->id }}</td>
                     <td>{{ $post->title }}</td>
+                    @if ($post->slug)
+                        <td>{{ $post->slug }}</td>
+                    @else
+                        <td>Not Founded</td>
+                    @endif
                     @if ($post->user)
                         <td>{{ $post->user->name }}</td>
                     @else
@@ -68,19 +84,18 @@
         {{ $posts->links('pagination::bootstrap-5') }}
 
     </div>
-
 @endsection
 @section('script')
-<script>
-    var deleteBtn = document.querySelectorAll(".deletePost");
-    for (btn of deleteBtn) {
-        btn.addEventListener("click", function(event) {
-            var btn = event.target;
-            let deleteBtnModal = document.querySelector("#delete");
-            deleteBtnModal.onclick = function() {
-                btn.closest("form").submit();
-            }
-        });
-    }
-</script>
+    <script>
+        var deleteBtn = document.querySelectorAll(".deletePost");
+        for (btn of deleteBtn) {
+            btn.addEventListener("click", function(event) {
+                var btn = event.target;
+                let deleteBtnModal = document.querySelector("#delete");
+                deleteBtnModal.onclick = function() {
+                    btn.closest("form").submit();
+                }
+            });
+        }
+    </script>
 @endsection
