@@ -11,13 +11,11 @@
             background-image: radial-gradient(circle, #ffffff 10%, rgb(225, 225, 250) 100%);
             background-attachment: fixed;
         }
-
         .disabled {
             pointer-events: none;
             color: gray;
             text-decoration: none;
         }
-
     </style>
 @endsection
 @section('content')

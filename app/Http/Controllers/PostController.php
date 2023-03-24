@@ -26,6 +26,18 @@ class PostController extends Controller
             return view('post.show', ['post' => $post, 'comments' => $comments, 'users' => $all_users]);
         }
     }
+    
+    public function showAjax($id)
+    {
+        dd('enterd');
+        if (is_numeric($id)) {
+            dd("ajax");
+            $post = Post::find($id);
+            return response()->json([
+                'post' => $post
+            ]);
+        }
+    }
     public function edit($id)
     {
         if (is_numeric($id)) {
@@ -86,10 +98,12 @@ class PostController extends Controller
             return to_route('posts.index');
         }
     }
-    public function pruneOldPost()
-    {
-        PruneOldPostsJob::dispatch();
+    public function deletePostsFromTwoYears(){
+        dd("prune");
+        dispatch(new PruneOldPostsJob());
+        return redirect()->back()->with('message', 'Old posts have been deleted.');
     }
+
     public function restore($id)
     {
         $post = Post::withTrashed()->find($id);
