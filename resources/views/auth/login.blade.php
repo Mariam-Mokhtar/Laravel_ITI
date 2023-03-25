@@ -75,12 +75,13 @@
 
 @section('style')
     <style>
-   body {
+        body {
             background-color: #ffffff;
             height: 100vh;
-            background-image:radial-gradient(circle, #ffffff 20%, rgb(225, 225, 250) 100%);
+            background-image: radial-gradient(circle, #ffffff 20%, rgb(225, 225, 250) 100%);
             background-attachment: fixed;
         }
+
         .login {
             display: flex;
             flex-direction: column;
@@ -107,7 +108,7 @@
             width: 50%;
             border-radius: 10px;
             font-size: 1.2rem;
-            background-image: linear-gradient(43deg, #a6d6be 0%, hsla(269, 100%, 77%, 1) 100%);
+            background-image: linear-gradient(43deg, #9b95f3 0%, rgb(228, 227, 241) 100%);
             color: white;
             font-weight: 600;
         }
@@ -115,9 +116,9 @@
 @endsection
 
 @section('content')
-    <form class="login m-auto my-5 px-0 py-5 w-50 rounded-5 shadow" method="POST" action="{{ route('login') }}">
+    <form class="login m-auto my-5 px-0 py-3 w-50 rounded-5 shadow" method="POST" action="{{ route('login') }}">
         @csrf
-        <h1 class="fs-bolder mb-2">Login</h1>
+        <h1 class="fs-bolder">Login</h1>
 
         <div class="login-form w-75">
             <div class=" mb-4">
@@ -137,8 +138,8 @@
                 <label for="password" class="fw-light mb-1">{{ __('Password') }}</label>
                 <div>
                     <i class="bi bi-lock-fill me-1 my-color"></i>
-                    <input id="password" type="password" class="w-75 @error('password') is-invalid @enderror" name="password"
-                        required autocomplete="current-password" placeholder="Type your password">
+                    <input id="password" type="password" class="w-75 @error('password') is-invalid @enderror"
+                        name="password" required autocomplete="current-password" placeholder="Type your password">
                     @error('password')
                         <span class="invalid-feedback mt-1" role="alert">
                             <strong>{{ $message }}</strong>
@@ -170,6 +171,23 @@
         <button class="login-btn">
             LOGIN
         </button>
+        <div class="row">
+            <div>
+                <a class="btn btn-dark mt-4 px-3" href="{{ route('gitHub-Login') }}">
+                    <i class="bi bi-github"></i>
+                    Login With Github
+                </a>
+                <a class="btn btn-primary mt-4 px-3" href="{{ route('google-Login') }}">
+                    <i class="bi bi-google"></i>
+                    Login With Google
+                </a>
+            </div>
+        </div>
+        @if (session('error'))
+        <div class="alert alert-danger p-2 mt-3">
+            {{ session('error') }}
+        </div>
+    @endif
 
         <div class="mt-4 d-flex flex-column align-items-center w-75">
             <p class="fs-6 my-color">Not a member? <a href="{{ route('register') }}" style="color:#5d9397">Register</a></p>

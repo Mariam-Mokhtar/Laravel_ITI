@@ -1,9 +1,16 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\HomeController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use  App\Http\Controllers\PostController;
 use  Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +39,6 @@ Route::group(["middleware" => ['auth']], function () {
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     Route::get('/posts/restore/{post}', [PostController::class, 'restore'])->name('posts.restore');
 
-
     //Comments
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
@@ -41,4 +47,9 @@ Route::group(["middleware" => ['auth']], function () {
 });
 
 Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/auth/github/redirect',[LoginController::class, 'gitHub_Login'])->name('gitHub-Login');
+Route::get('/auth/github/callback',[LoginController::class, 'github_callback']);
+
+Route::get('/auth/google/redirect',[LoginController::class, 'google_Login'])->name('google-Login');
+Route::get('/auth/google/callback',[LoginController::class, 'google_callback']);
